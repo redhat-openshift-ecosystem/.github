@@ -1,0 +1,16 @@
+name: Github pull request labels
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  skip-test-labeler:
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Skip check_pruned_graph
+        uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/test skip check_pruned_graph') }}
+        with:
+          labels: tests/skips/check_pruned_graph
